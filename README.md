@@ -1,4 +1,4 @@
-# Multiplayer Tic-Tac-Toe
+# Battle-Royale-Hangman
 
 A Multiplayer Tic-Tac-Toe game written in C++ based on the client-server model using the basics of socket programming.
 
