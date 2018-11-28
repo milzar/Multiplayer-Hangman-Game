@@ -1,16 +1,5 @@
 /* This is the client side code to connect to a tic-tac-toe game server.
- * Source Code written by Indradhanush Gupta.
- * Website  :
- * Github
- * Facebook :
- * Twitter  :
- * Quora    :
- * E-mail   : indradhanush.gupta@gmail.com
- *
- * To report any bugs please send me an e-mail.
- * Tips are welcome.
- *
- */
+*/
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
@@ -42,34 +31,30 @@ int main(int argc, char *argv[])
 
 	system("clear");
 
-	if (argc != 2)
-	{
+	if (argc != 2){
 		perror("Incomplete arguments!");
 		return 1;
 	}
 	port_no = atoi(ptr_port);
 	he = gethostbyname(argv[1]);
-	if (he == NULL)
-	{
+	if (he == NULL){
 		perror("No Such Host!");
 		return 1;
 	}
 
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
-	if(sockfd == -1)
-	{
+	if(sockfd == -1){
 		perror("Sorry. Socket could not be created!");
 		return 1;
 	}
 
-    memset(&serv_addr, 0, sizeof(serv_addr));
+  memset(&serv_addr, 0, sizeof(serv_addr));
 	serv_addr.sin_family = AF_INET;
 	serv_addr.sin_port = htons(port_no);
 	serv_addr.sin_addr = *((struct in_addr *)he->h_addr);
 
 	connectfd = connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
-	if (connectfd == -1)
-	{
+	if (connectfd == -1){
 		perror("Sorry. Could not connect to server.");
 		return 1;
 	}
@@ -103,15 +88,13 @@ int main(int argc, char *argv[])
 	cout<<endl<<"Game created!"<<endl<<endl<<"Doing a toss...";
 
 	bytes_recvd = recv(sockfd, &toss_buffer, sizeof(toss_buffer), 0);
-	if (bytes_recvd == -1)
-	{
+	if (bytes_recvd == -1){
 		perror("TOSS BUFFER not received");
 		return 1;
 	}
 
 	toss = toss_buffer - '0';
-	if (toss == 0)
-	{
+	if (toss == 0){
 		cout<<endl<<sname<<" WON the toss."<<endl;
 		cout<<sname<<" is choosing. Please wait..."<<endl<<endl;
 		memset(&choice_buffer, 0, sizeof(choice_buffer));
@@ -170,14 +153,12 @@ int main(int argc, char *argv[])
 
 	}
 
-	if (serv_choice == 'X')
-	{
+	if (serv_choice == 'X'){
 		inp = 1;
 		cout<<sname<<" will play first."<<endl<<endl;
 
 	}
-	else
-	{
+	else{
 		inp = 2;
 		cout<<"You will play first."<<endl<<endl;
 	}
@@ -192,8 +173,7 @@ int main(int argc, char *argv[])
 	{
 		memset(&co_ordinates_buffer, 0, sizeof(co_ordinates_buffer));
 
-		if (inp % 2 != 0 )
-		{
+		if (inp % 2 != 0 ){
 			cout<<endl<<sname<<"'s turn. Please wait..."<<endl;
 			bytes_recvd = recv(sockfd, &co_ordinates_buffer, sizeof(co_ordinates_buffer), 0);
 			if (bytes_recvd == -1)
@@ -210,8 +190,7 @@ int main(int argc, char *argv[])
 				cout<<endl<<sname<<" has played. Updating Matrix..."<<endl;
 			}
 		}
-		else
-		{
+		else{
 			cout<<endl<<"Your turn. Enter co-ordinates separated by a space : ";
 			cin>>x>>y;
 			ni = input(cli_choice, x, y);
@@ -236,8 +215,7 @@ int main(int argc, char *argv[])
 		system("clear");
 		display();
 
-		if (count >=5)
-		{
+		if (count >=5){
 			nc = check();
 			if (nc == 'f')
 				continue;

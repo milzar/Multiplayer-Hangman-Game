@@ -110,39 +110,35 @@ int main(int argc, char *argv[]){
 	sleep(1);
 	sprintf(&toss_buffer, "%d", toss);
 	bytes_sent = send(newsockfd, &toss_buffer, sizeof(toss_buffer), 0);
-	if (bytes_sent == -1)
-	{
+	if (bytes_sent == -1){
 		perror("TOSS BUFFER not sent!");
 		return 1;
 	}
 
-	if (toss == 0)
-	{
+	if (toss == 0){
 		cout<<endl<<"You WON the toss!"<<endl;
 		do
     	{
     		cout<<sname<<" Enter Your Choice (X or O): ";
 			cin>>serv_choice;
-			if (serv_choice == 'X' || serv_choice == 'x')
-			{
+			if (serv_choice == 'X' || serv_choice == 'x'){
 	    		serv_choice = 'X';
 	    		cli_choice = 'O';
 	    		inp_true = 1;
 				cout<<endl<<cname<<" gets O."<<endl<<endl<<"Lets Play!"<<endl<<endl;
 			}
-			else if (serv_choice == 'O' || serv_choice == 'o' || serv_choice == '0')
-			{
+			else if (serv_choice == 'O' || serv_choice == 'o' || serv_choice == '0'){
 			    serv_choice = 'O';
         		cli_choice = 'X';
 	    		inp_true = 1;
 	    		cout<<endl<<cname<<" gets X."<<endl<<endl<<"Lets Play!"<<endl<<endl;
 			}
-			else
-			{
+			else{
 	    		cout<<"\nInvalid Choice! Please Choose Again..."<<endl;
 	    		inp_true == 0;
 			}
-    	}while(inp_true == 0);
+
+    }while(inp_true == 0);
 
 		memset(&choice_buffer, 0, sizeof(choice_buffer));
 		choice_buffer[0] = serv_choice;
@@ -187,8 +183,7 @@ int main(int argc, char *argv[]){
 	sleep(3);
 	display();
 
-	while (count < 9)
-	{
+	while (count < 9){
 		memset(&co_ordinates_buffer, 0, sizeof(co_ordinates_buffer));
 
 		if (inp % 2 != 0 )
@@ -214,16 +209,14 @@ int main(int argc, char *argv[]){
 		else{
 			cout<<endl<<cname<<"'s turn. Please wait..."<<endl;
 			bytes_recvd = recv(newsockfd, &co_ordinates_buffer, sizeof(co_ordinates_buffer), 0 );
-			if (bytes_recvd == -1)
-			{
+			if (bytes_recvd == -1){
 				perror("CO-ORDINATES BUFFER not recieved!");
 				return 1;
 			}
 			x = co_ordinates_buffer[0] - '0';
 			y = co_ordinates_buffer[1] - '0';
 			ni = input(cli_choice, x, y);
-			if (ni == 0)
-			{
+			if (ni == 0){
 				inp ++;
 				cout<<endl<<cname<<" has played. Updating Matrix..."<<endl;
 			}
