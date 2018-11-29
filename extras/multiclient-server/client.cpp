@@ -13,6 +13,10 @@ int main(int argc, char *argv[]){
     send(socket_fd,data,strlen(data),0);
 
     cout<<"Sent : "<<data<<endl;
+    cout<<"sending again "<<endl;
+    strcpy(data,"ALOHA BITCHES!");
+    send(socket_fd,data,strlen(data),0);
+
     while(1);
 
     return 0;
