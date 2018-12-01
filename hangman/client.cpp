@@ -5,6 +5,8 @@
 #include<iostream>
 #include <unistd.h>
 #include<string.h>
+#include "GameData.h"
+
 using namespace std;
 
 int main(int argc, char *argv[]){
@@ -19,18 +21,34 @@ int main(int argc, char *argv[]){
     myclient.forward(argv[3]);
     cout<<"Received:\t"<<myclient.receive()<<endl;
     cout<<"Waiting"<<endl;
-    cout<<myclient.receive()<<endl;
+
+
+    string  res = myclient.receive();
+    GameData game(1);
+    game.deserialize(res);
+    game.render();
     //Game started
 
     while(true){
+        //Play or wait
+        cout<<"Waiting for server command"<<endl;
         string str = myclient.receive();
         if(str == "play"){
-            string temp;
+            string req;
             cout<<"Your turn : Enter choice"<<endl;
-            cin>>temp;
-            myclient.forward(temp);
+            cin>>req;
+            //Send guess
+            myclient.forward(req);
         }
-        cout<<"\nReceived\t"<<myclient.receive()<<endl;
+        else{
+            cout<<"Nor my turn\t Received\t"<<str<<endl;
+        }
+        std::cout << "Receiving Game data" << '\n';
+        string res;
+        res=myclient.receive();
+        game.deserialize(res);
+        game.render();
+        std::cout << "end loop" << '\n';
     }
     return 0;
 }

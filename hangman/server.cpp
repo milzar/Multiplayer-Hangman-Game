@@ -7,6 +7,7 @@
 #include <sys/time.h>
 #include<vector>
 #include<algorithm>
+#include "GameData.h"
 using namespace std;
 
 class Player{
@@ -42,19 +43,19 @@ fd_set initFdset(vector<Player> clients, int master){
     return temp;
 }
 
-void sendGameNotification(vector<Player> clients,Server s ){
+void sendGameNotification(vector<Player> clients,Server s ,GameData game){
       for(auto client : clients){
-              s.forward(client.socket_id,"Game Started");
+              s.forward(client.socket_id,game.serialize());
       }
 }
 
 int main(int argc,char *argv[]){
-        int maxPlayers =2;
+        int maxPlayers =atoi(argv[2]);
         bool beginGame=false;
         // vector<int> client_sockets;
         vector<Player> players;
 
-        Server myserver(argv[1],argv[2]);
+        Server myserver(argv[1],maxPlayers);
         cout<<"Server runnin on Port "<<argv[1]<<endl;
 
         fd_set masterfds;
@@ -63,9 +64,6 @@ int main(int argc,char *argv[]){
         int max_file , socketCount;
         max_file = myserver.mastersocket;
 
-        timeval t;
-        t.tv_sec = 2;
-        t.tv_usec = 500000;
 
         while(!beginGame){
           masterfds = initFdset(players,myserver.mastersocket);
@@ -88,22 +86,39 @@ int main(int argc,char *argv[]){
         }
         sleep(1);
         //Begin Game
-        sendGameNotification(players,myserver);
+        string root_word = "Rasputinsenpai";
+        GameData game(root_word.size());
+        sendGameNotification(players,myserver,game);
 
+        //GAMEDATA
         int turn=0;
+
         while(true){
             int currentPlayer = players[turn].socket_id;
+            cout<<"Sending Play and wait"<<endl;
             for(auto player : players){
                 if(player.socket_id == currentPlayer)
                   myserver.forward(player.socket_id, "play");
                 else
                   myserver.forward(player.socket_id, "wait");
             }
-            string str = myserver.receive(currentPlayer);
+            //Receive Client guess
+            cout<<"waiting for client guess"<<endl;
+            string guess = myserver.receive(currentPlayer);
+            std::cout<<"Received guess from client: "<<guess<<std::endl;
+            if(game.play(root_word,guess) ){
+                cout<<"Game Over\t"<<players[turn].name<<" Wins\t"<<endl;
+            };
+
+            string res = game.serialize();
+            std::cout<<"Serialized data being sent:"<<res<<std::endl;
             for(auto player : players){
-                  myserver.forward(player.socket_id, str);
+                  myserver.forward(player.socket_id, res);
             }
             turn = (turn +1)%maxPlayers;
+            std::cout << "Server End of loop" << endl;
+            sleep(1);
           }
+
      return 0;
 }

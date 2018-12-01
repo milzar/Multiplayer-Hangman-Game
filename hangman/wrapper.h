@@ -50,12 +50,24 @@ class Client{
               send(mastersocket, data,strlen(data),0);
               return strlen(str);
             }
+            // template <class T>
+            // int forwardObject(T obj){
+            //   return send(mastersocket, (char*) obj,sizeof(T),0);
+            // }
 
             std::string receive(){
                 char data[1024]={0};
                 recv(mastersocket, data , sizeof(data) , 0);
                 return std::string(data);
             }
+
+            // template <class T>
+            // T receiveObject(){
+            //     T obj;
+            //     char data[1024]={0};
+            //     recv(mastersocket, &obj , sizeof(T) , 0);
+            //     return obj;
+            // }
 
 };
 
@@ -68,8 +80,8 @@ class Server{
           Server(){
                 init(2017,20);
           }
-          Server(char *port,char *maxClients){
-                init(atoi(port),atoi(maxClients));
+          Server(char *port,int maxClients){
+                init(atoi(port),maxClients);
           }
 
           void init(int port, int maxClients = 20){
@@ -111,4 +123,18 @@ class Server{
               send(client, data,strlen(data),0);
               return strlen(str);
             }
+
+        // template <class T>
+        // int forwardObject(int client, T obj){
+        //   return send(mastersocket, (char*) obj,sizeof(T),0);
+        // }
+        //
+        // template <class T>
+        // T receiveObject(int client){
+        //     T obj;
+        //     char data[1024]={0};
+        //     recv(mastersocket, &obj , sizeof(T) , 0);
+        //     return obj;
+        // }
+
 };

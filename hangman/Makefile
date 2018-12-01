@@ -1,5 +1,5 @@
-output: server.cpp client.cpp wrapper.h
+output: server.cpp client.cpp wrapper.h GameData.h
 		g++ wrapper.h
-		g++ server.cpp -o server
-		g++ client.cpp -o client
+		g++ server.cpp GameData.cpp -o server
+		g++ client.cpp GameData.cpp -o client
 		rm *.gch
