@@ -27,7 +27,7 @@ void Client::init(std::string serverIp , int port ){
       connect(socket_fd, (struct sockaddr *)&socket_address, sizeof(socket_address) );
       mastersocket = socket_fd;
 }
-void  Client::init(char* serverIp , int port ){
+void  Client::init(const char* serverIp , int port ){
       int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
       sockaddr_in socket_address;
       socket_address.sin_family = AF_INET;
@@ -44,7 +44,7 @@ int Client::forward(std::string str){
     send(mastersocket, data,strlen(data),0);
     return str.size();
 }
-int Client::forward(char *str){
+int Client::forward(const char *str){
   char data[1024]={0};
   strcpy(data,str);
   send(mastersocket, data,strlen(data),0);
@@ -97,7 +97,7 @@ int Server::forward(int client, std::string str){
       send(client, data,strlen(data),0);
       return str.size();
   }
-  int Server::forward(int client, char *str){
+  int Server::forward(int client, const char *str){
     char data[1024]={0};
     strcpy(data,str);
     send(client, data,strlen(data),0);
@@ -116,7 +116,7 @@ Player::Player(std::string a, int b){
 
 int updateMaxFD(std::vector<Player> clients, int maxfd){
     int x =maxfd;
-    for(int i=0;i<clients.size();i++)
+    for(size_t i=0;i<clients.size();i++)
       x =std::max(x,clients[i].socket_id);
     return x;
 
@@ -125,7 +125,7 @@ fd_set initFdset(std::vector<Player> clients, int master){
     fd_set temp;
     FD_ZERO(&temp);
     FD_SET(master,&temp);
-    for(int i=0;i<clients.size();i++){
+    for(size_t i=0;i<clients.size();i++){
         if(clients[i].socket_id)
             FD_SET(clients[i].socket_id,&temp);
     }

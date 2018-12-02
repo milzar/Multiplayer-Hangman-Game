@@ -11,10 +11,10 @@ class Client{
 
             //Opens a tcp connection to a server at port and ip and sets the socket_fd
             void  init(std::string serverIp , int port );
-            void  init(char* serverIp , int port );
+            void  init(const char* serverIp , int port );
             //Sends the message to the server
             int forward(std::string str);
-            int forward(char *str);
+            int forward(const char *str);
             std::string receive();
 };
 
@@ -32,7 +32,7 @@ class Server{
           std::string receive(int client);
 
           int forward(int client, std::string str);
-          int forward(int client, char *str);
+          int forward(int client, const char *str);
 
 
 };

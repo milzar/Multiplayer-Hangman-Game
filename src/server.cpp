@@ -19,7 +19,7 @@ static int i;
 
 int main(int argc,char *argv[]){
 
-        int maxPlayers =atoi(argv[2]);
+        size_t maxPlayers =atoi(argv[2]);
         bool beginGame=false;
         vector<Player> players;
         cout<<"Server runnin on Port "<<argv[1]<<endl;
