@@ -1,6 +1,8 @@
 #include "GameData.h"
 #include <string.h>
 #include <iostream>
+#include <fstream>
+#include <random>
 
 void GameData::init(int root_word_len) {
     word_length = root_word_len;
@@ -55,4 +57,21 @@ void GameData::deserialize(std::string req){
     req.copy(data, req.size());
     sscanf(data, "%d %s %d %d|", &word_length, current_string, &n_players, &current_turn);
     // std::cout<<"Deserializing\t"<<req<<std::endl;
+}
+
+
+std::string GameData::getRandomWord() {
+    std::ifstream file("words.txt");
+    std::string word;
+
+    std::random_device rd;
+    unsigned long rand_no = std::uniform_int_distribution<unsigned long>()(rd) % 367516;
+
+    while(--rand_no) getline(file, word);
+    getline(file, word);
+
+    // Remove trailing newline char
+    word.erase(word.length() - 1);
+    std::cout<<"Root Word: "<<word<<std::endl;
+    return word;
 }

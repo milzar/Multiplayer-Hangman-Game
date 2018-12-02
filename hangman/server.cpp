@@ -56,7 +56,7 @@ int main(int argc,char *argv[]){
         }
         sleep(1);
         //Begin Game
-        string root_word = "rush";
+        string root_word = GameData::getRandomWord();
         GameData game(root_word.size());
         sendGameNotification(players,myserver,game);
         //GAMEDATA
