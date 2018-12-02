@@ -1,54 +1,71 @@
 //Run as ./client server-ip server-port PlayerName
 
-
+#include "GameData.h"
 #include "wrapper.h"
 #include<iostream>
 #include <unistd.h>
 #include<string.h>
-#include "GameData.h"
 
 using namespace std;
+static int i;
 
 int main(int argc, char *argv[]){
     if(argc < 4){
         cout<<"Invalid arguments"<<endl;
         return 0;
     }
+
     cout<<argv[3]<<"\tRunning"<<endl;
-
     Client myclient(argv[1],argv[2]);
-
     myclient.forward(argv[3]);
     cout<<"Received:\t"<<myclient.receive()<<endl;
-    cout<<"Waiting"<<endl;
-
-
+    cout<<"Waiting for other players......"<<endl;
     string  res = myclient.receive();
     GameData game(1);
     game.deserialize(res);
     game.render();
     //Game started
-
     while(true){
         //Play or wait
-        cout<<"Waiting for server command"<<endl;
+        // cout<<"Waiting for server command"<<endl;
         string str = myclient.receive();
+
         if(str == "play"){
-            string req;
+            string req="";
             cout<<"Your turn : Enter choice"<<endl;
             cin>>req;
-            //Send guess
             myclient.forward(req);
         }
-        else{
-            cout<<"Nor my turn\t Received\t"<<str<<endl;
+        else if(str == "wait"){
+            cout<<"Waiting for other player"<<endl;
         }
-        std::cout << "Receiving Game data" << '\n';
+        else{
+        }
+
         string res;
         res=myclient.receive();
-        game.deserialize(res);
-        game.render();
-        std::cout << "end loop" << '\n';
+        if( res.find("gameover") != string::npos ){
+            cout<<"GAME OVER!"<<endl;
+            cout<<res.substr(8)<<" Wins!"<<endl;
+            // cout<<"Play Again(Y/N)?"<<endl;
+            // string again;
+            // cin>>again;
+            // if(again != "y"){
+            //     break;
+            // }
+            // else{
+            //     cout<<"Waiting for next game"<<endl;
+            //     while(1);
+            // }
+
+            return 0;
+
+        }
+        else{
+            game.deserialize(res);
+            game.render();
+        }
+
     }
     return 0;
 }

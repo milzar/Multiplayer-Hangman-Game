@@ -14,7 +14,7 @@ void GameData::init(int root_word_len) {
 int GameData::play(std::string root_word, std::string str) {
     int len = str.size();
 
-    std::cout<<"playing "<<str<<"on "<<root_word<<std::endl;
+    // std::cout<<"playing "<<str<<"on "<<root_word<<std::endl;
     // The word is being guessed
     if(len != 1) {
         return str == root_word;
@@ -36,14 +36,17 @@ int GameData::play(std::string root_word, std::string str) {
 }
 
 void GameData::render() {
-    std::cout<<"Current string : "<<current_string<<std::endl;
+    std::cout << "\n\n" << '\n';
+    std::cout<<"..........\t\tWord : "<<current_string<<"\t\t..........";
+    std::cout << "\n\n" << '\n';
+
 }
 
 std::string GameData::serialize() {
   char data[1024];
   sprintf(data, "%d %s %d %d|", word_length, current_string, n_players, current_turn);
   std::string str(data);
-  std::cout<<"Serialized\t"<<str<<std::endl;
+  // std::cout<<"Serialized\t"<<str<<std::endl;
   return str;
 }
 
@@ -51,5 +54,5 @@ void GameData::deserialize(std::string req){
     char data[1024]={0};
     req.copy(data, req.size());
     sscanf(data, "%d %s %d %d|", &word_length, current_string, &n_players, &current_turn);
-    std::cout<<"Deserializing\t"<<req<<std::endl;
+    // std::cout<<"Deserializing\t"<<req<<std::endl;
 }
