@@ -5,7 +5,7 @@ class GameData {
     int word_length;
     // Holds the string currently revealed
     // unrevealed characters are represented by an underscore
-    char current_string[10];
+    char current_string[20];
 
     int n_players;
     int current_turn;

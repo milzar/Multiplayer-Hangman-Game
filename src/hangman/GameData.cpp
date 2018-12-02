@@ -65,7 +65,7 @@ std::string GameData::getRandomWord() {
     std::string word;
 
     std::random_device rd;
-    unsigned long rand_no = std::uniform_int_distribution<unsigned long>()(rd) % 367516;
+    unsigned long rand_no = std::uniform_int_distribution<unsigned long>(1, 367516)(rd);
 
     while(--rand_no) getline(file, word);
     getline(file, word);
