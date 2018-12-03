@@ -1,7 +1,7 @@
 //Run as ./client server-ip server-port PlayerName
 
-#include "GameData.h"
-#include "wrapper.h"
+#include "hangman/GameData.h"
+#include "network/wrapper.h"
 #include<iostream>
 #include <unistd.h>
 #include<string.h>

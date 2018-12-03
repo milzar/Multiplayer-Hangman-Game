@@ -1,7 +1,7 @@
 //Run as ./server port max-clients-no
 
-#include "wrapper.h"
-#include "GameData.h"
+#include "network/wrapper.h"
+#include "hangman/GameData.h"
 
 #include <unistd.h> //contains various constants
 #include<string.h>
