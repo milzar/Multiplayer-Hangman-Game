@@ -45,6 +45,8 @@ void GameData::render() {
 }
 
 std::string GameData::serialize() {
+  //TODO send currently guessed characters too
+  
   char data[1024];
   sprintf(data, "%d %s %d %d|", word_length, current_string, n_players, current_turn);
   std::string str(data);

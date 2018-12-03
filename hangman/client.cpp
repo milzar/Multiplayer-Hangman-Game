@@ -34,6 +34,9 @@ int main(int argc, char *argv[]){
             string req="";
             cout<<"Your turn : Enter choice"<<endl;
             cin>>req;
+            //TODO
+            //Check if req is an already guessed character
+            //If so read input again
             myclient.forward(req);
         }
         else if(str == "wait"){
@@ -46,7 +49,9 @@ int main(int argc, char *argv[]){
         res=myclient.receive();
         if( res.find("gameover") != string::npos ){
             cout<<"GAME OVER!"<<endl;
-            cout<<res.substr(8)<<" Wins!"<<endl;
+            int found = res.find("||");
+            cout<<res.substr(8,found)<<" Wins!"<<endl;
+            cout<<"Word was:"<<res.substr(found+2);
             // cout<<"Play Again(Y/N)?"<<endl;
             // string again;
             // cin>>again;

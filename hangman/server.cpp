@@ -74,7 +74,7 @@ int main(int argc,char *argv[]){
             string guess = myserver.receive(currentPlayer);
             if(game.play(root_word,guess) ){
                 cout<<"Game Over\t"<<players[turn].name<<" Wins\t"<<endl;
-                string res = "gameover"+players[turn].name ;
+                string res = "gameover"+players[turn].name + "||" +root_word;
                 for(auto player : players){
                       myserver.forward(player.socket_id, res);
                 }
