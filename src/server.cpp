@@ -15,8 +15,6 @@ void sendGameNotification(vector<Player> clients,Server s ,GameData game){
               s.forward(client.socket_id,game.serialize());
       }
 }
-static int i;
-
 int main(int argc,char *argv[]){
 
         int maxPlayers =atoi(argv[2]);
@@ -30,7 +28,7 @@ int main(int argc,char *argv[]){
         fd_set masterfds;
         FD_ZERO(&masterfds);
         FD_SET(myserver.mastersocket,&masterfds);
-        int max_file , socketCount;
+        int max_file ;
         max_file = myserver.mastersocket;
 
 

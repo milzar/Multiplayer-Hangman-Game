@@ -7,7 +7,6 @@
 #include<string.h>
 
 using namespace std;
-static int i;
 
 int main(int argc, char *argv[]){
     if(argc < 4){
