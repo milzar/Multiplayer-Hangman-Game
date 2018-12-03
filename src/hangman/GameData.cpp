@@ -45,6 +45,8 @@ void GameData::render() {
 }
 
 std::string GameData::serialize() {
+  //TODO send currently guessed characters too
+  
   char data[1024];
   sprintf(data, "%d %s %d %d|", word_length, current_string, n_players, current_turn);
   std::string str(data);
@@ -65,7 +67,7 @@ std::string GameData::getRandomWord() {
     std::string word;
 
     std::random_device rd;
-    unsigned long rand_no = std::uniform_int_distribution<unsigned long>(1, 367516)(rd);
+    unsigned long rand_no = std::uniform_int_distribution<unsigned long>()(rd) % 367516;
 
     while(--rand_no) getline(file, word);
     getline(file, word);

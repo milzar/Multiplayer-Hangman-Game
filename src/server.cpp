@@ -1,7 +1,7 @@
 //Run as ./server port max-clients-no
 
-#include "network/wrapper.h"
-#include "hangman/GameData.h"
+#include "wrapper.h"
+#include "GameData.h"
 
 #include <unistd.h> //contains various constants
 #include<string.h>
@@ -19,7 +19,7 @@ static int i;
 
 int main(int argc,char *argv[]){
 
-        size_t maxPlayers =atoi(argv[2]);
+        int maxPlayers =atoi(argv[2]);
         bool beginGame=false;
         vector<Player> players;
         cout<<"Server runnin on Port "<<argv[1]<<endl;
@@ -74,7 +74,7 @@ int main(int argc,char *argv[]){
             string guess = myserver.receive(currentPlayer);
             if(game.play(root_word,guess) ){
                 cout<<"Game Over\t"<<players[turn].name<<" Wins\t"<<endl;
-                string res = "gameover"+players[turn].name ;
+                string res = "gameover"+players[turn].name + "||" +root_word;
                 for(auto player : players){
                       myserver.forward(player.socket_id, res);
                 }
